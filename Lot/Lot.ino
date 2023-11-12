@@ -90,8 +90,6 @@ void setup() {
     mqttClient.publish(lotAliveTopic, "Lot 1 is operational!", 0, false);
     delay(500);
     Serial.println("Alive MQTT message sent!");
-    // Wait for car to stabilize
-    delay(1000);
     sendMQTTStatus();
     delay(100);
     disconnectWiFi();
@@ -109,8 +107,6 @@ void setup() {
     setLED();
     connectWiFi();
     connectMQTT();
-    // Wait for car to stabilize
-    delay(1000);
     sendMQTTStatus();
     delay(100);
     disconnectWiFi();
