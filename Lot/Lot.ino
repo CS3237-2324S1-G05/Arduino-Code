@@ -68,12 +68,11 @@ void setup() {
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
 
-
+  // Read current distance from ultrasonic sensor
   float currentDist = readDistanceCm();
   Serial.println("Current distance sensor reading: " + String(currentDist) + "cm");
 
   // Check reset reason
-  // We use this to initialise for things that we need on the first boot
   esp_reset_reason_t reset_reason;
   reset_reason = esp_reset_reason();
   if (reset_reason == ESP_RST_POWERON) {
