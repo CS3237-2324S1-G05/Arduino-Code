@@ -59,32 +59,10 @@ RTC_DATA_ATTR bool boolCarDetected = false;
 
 void setup() {
   Serial.begin(115200);
-  
-  // SET LEDs as output pin
+
+  // Initialise LEDs
   pinMode(RED_LED,OUTPUT);
   pinMode(GREEN_LED,OUTPUT);
-
-  // Wifi connection
-  WiFi.begin(ssid, pass);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
-  Serial.println("Connected to WiFi");
-  WiFi.setHostname(strHostname.c_str());
-  delay(500);
-
-  // Initialize and configure MQTT
-  mqttClient.enableDebuggingMessages();
-  mqttClient.setURI(server);
-  mqttClient.enableLastWillMessage("lwt", strLastWillMessage.c_str());
-  mqttClient.setKeepAlive(30);
-  mqttClient.loopStart();
-  while(!mqttClient.isConnected()) {
-    delay(500);
-    Serial.println("Waiting for MQTT Connection");
-  }
-  Serial.println("MQTT Connected!");
 
   // Initialise Ultrasonic Sensor
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
@@ -103,26 +81,44 @@ void setup() {
     Serial.println("This is a power-on reset (first time code execution).");
     boolCarDetected = (currentDist <= fltDetectionDistanceCm);
     setLED();
+    connectWiFi();
+    connectMQTT();
     delay(2000);
     mqttClient.publish(lotAliveTopic, "Lot 1 is operational!", 0, false);
     delay(100);
     Serial.println("Alive MQTT message sent!");
     sendStatus();
     delay(100);
+    disconnectWiFi();
   } else if (reset_reason == ESP_RST_DEEPSLEEP) {
     // This route can be deleted later
     Serial.println("Woken up from deep sleep.");
   }
-
+  
   bool currentCarStatus = (currentDist <= fltDetectionDistanceCm);
 
   if (boolCarDetected != currentCarStatus) {
+    Serial.println("Change in carpark state.");
     boolCarDetected = currentCarStatus;
+    Serial.println("Connecting WiFi");
+    connectWiFi();
+    Serial.println("WiFi Connected.");
+    Serial.println("Connecting MQTT");
+    connectMQTT();
+    Serial.println("MQTT Connected.");
     gpio_hold_dis((gpio_num_t)RED_LED);
     gpio_hold_dis((gpio_num_t)GREEN_LED);
+    Serial.println("Setting LED");
     setLED();
+    Serial.println("Sending Status to MQTT");
     sendStatus();
+    Serial.println("MQTT Status Sent");
     delay(100);
+    Serial.println("Disconnecting from WiFi");
+    disconnectWiFi();
+    Serial.println("Disconnected from WiFi.");
+  } else {
+    Serial.println("No change in status.");
   }
 
   gpio_hold_en((gpio_num_t)RED_LED);
@@ -130,8 +126,6 @@ void setup() {
   gpio_deep_sleep_hold_en();
 
   // Clean up before sleeping
-  WiFi.disconnect(true);
-  Serial.println("Disconnected from WIFI");
   Serial.println("Going to sleep now");
   Serial.flush();
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
@@ -176,10 +170,43 @@ void setLED() {
 
 void sendStatus() {
   if (boolCarDetected) {
-    delay(3000);
+    delay(2000);
     // Got car
     mqttClient.publish(ParkEventTopic, "Car Parked at Lot " + String(intLotNum), 0, false);
   } else {
     mqttClient.publish(LeaveEventTopic, "Car Left at Lot " + String(intLotNum), 0, false);
   }
+  // For the message to send finish
+  delay(2000);
+}
+
+void connectWiFi() {
+  // Wifi connection
+  WiFi.begin(ssid, pass);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi");
+  WiFi.setHostname(strHostname.c_str());
+  delay(500);
+}
+
+void connectMQTT() {
+  // Initialize and configure MQTT
+  mqttClient.enableDebuggingMessages();
+  mqttClient.setURI(server);
+  mqttClient.enableLastWillMessage("lwt", strLastWillMessage.c_str());
+  mqttClient.setKeepAlive(30);
+  mqttClient.loopStart();
+  while(!mqttClient.isConnected()) {
+    delay(500);
+    Serial.println("Waiting for MQTT Connection");
+  }
+  Serial.println("MQTT Connected!");
+}
+
+void disconnectWiFi() {
+  WiFi.disconnect(true);
+  Serial.println("Disconnected from WIFI");
 }
