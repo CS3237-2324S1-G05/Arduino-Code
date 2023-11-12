@@ -1,8 +1,8 @@
-# server = "192.168.10.111"
+server = "192.168.10.111"
 # server = "192.168.86.181"
 # server = "192.168.86.80"
 # server = "192.168.43.156"
-server = "192.168.43.186"
+# server = "192.168.43.186"
 
 import paho.mqtt.client as mqtt
 
