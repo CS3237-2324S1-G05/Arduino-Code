@@ -98,15 +98,27 @@ void setup() {
   bool currentCarStatus = (currentDist <= fltDetectionDistanceCm);
 
   if (boolCarDetected != currentCarStatus) {
+    Serial.println("Change in carpark state.");
     boolCarDetected = currentCarStatus;
+    Serial.println("Connecting WiFi");
     connectWiFi();
+    Serial.println("WiFi Connected.");
+    Serial.println("Connecting MQTT");
     connectMQTT();
+    Serial.println("MQTT Connected.");
     gpio_hold_dis((gpio_num_t)RED_LED);
     gpio_hold_dis((gpio_num_t)GREEN_LED);
+    Serial.println("Setting LED");
     setLED();
+    Serial.println("Sending Status to MQTT");
     sendStatus();
+    Serial.println("MQTT Status Sent");
     delay(100);
+    Serial.println("Disconnecting from WiFi");
     disconnectWiFi();
+    Serial.println("Disconnected from WiFi.");
+  } else {
+    Serial.println("No change in status.");
   }
 
   gpio_hold_en((gpio_num_t)RED_LED);
