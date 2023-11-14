@@ -5,6 +5,14 @@ Written by: Sean Wong
 */
 
 /*
+Board:esp32doit-devkit-v1
+Core: esp32
+Libraries
+- WiFi@2.0.0
+- ESP32MQTTClient@0.1.0
+*/
+
+/*
 I first tried pins 12, 13 but it did not work at all,
 after alot of debugging i realised that I need to use RTC enabled GPIO pins
 
