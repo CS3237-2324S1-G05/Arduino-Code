@@ -4,6 +4,8 @@ Welcome to the GitHub repository for the Smart Carpark system's Arduino codes! T
 
 This is done as part of the Project for CS3237 - Introduction to Internet of Things, AY23/24 Semester 1.
 
+Done by Group 5!
+
 ## Repository Structure 🗂️
 
 Here's a guide to what you'll find in this repository:
@@ -23,8 +25,9 @@ Here's a guide to what you'll find in this repository:
 To set up your environment for contributing to this project, please follow these steps:
 
 1. Ensure you have the Arduino IDE installed on your computer.
-2. Install all necessary libraries and ESP32 Board manager
-3. Connect your ESP32 / ESP32 Camera module and any other relevant hardware to your computer.
+2. Ensure you have MQTT server set up
+3. Install all necessary libraries and ESP32 Board manager
+4. Connect your ESP32 / ESP32 Camera module and any other relevant hardware to your computer.
 
 ## Usage 🛠️
 
