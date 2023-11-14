@@ -2,7 +2,18 @@
 CS3237 AY2324S1 for ESP Camera
 ESP-CAM CODE
 Written by: Sean Wong
- */
+*/
+
+/*
+Board: esp32cam
+Core: esp32
+Libraries
+- WiFi@2.0.0
+- ESP32MQTTClient@0.1.0
+- HTTPClient@2.0.0
+- WiFiClientSecure@2.0.0
+*/
+
 // ENTRANCE, EXIT, LOT1, LOT0, HUMAN
 #define ENTRANCE
 
@@ -167,7 +178,7 @@ void sendImage() {
 }
 
 
-// Function modofied from from Tang Ze Hou
+// Function modified from from Tang Ze Hou
 // Dependent on WiFiClient
 void captureAndSendImage() {
   
