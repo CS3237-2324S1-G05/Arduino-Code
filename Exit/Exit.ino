@@ -2,7 +2,19 @@
 CS3237 AY2324S1
 EXIT GANTRY CODE
 Done by: Sean Wong
- */
+*/
+
+/*
+Board: esp32doit-devkit-v1
+Core: esp32
+Libraries
+- LiquidCrystal_I2C@1.1.4
+- Wire@2.0.0
+- ESP8266 and ESP32 OLED driver for SSD1306 displays@4.4.0
+- ESP32Servo@1.1.0
+- ESP32MQTTClient@0.1.0
+- WiFi@2.0.0
+*/
 
 /*
 Both the LCD, the Ultrasonic sensor and servo works on 5V rail, we need to be careful
