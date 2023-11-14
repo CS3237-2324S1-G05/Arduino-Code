@@ -5,7 +5,7 @@ Written by: Sean Wong
 */
 
 /*
-Board:esp32doit-devkit-v1
+Board: esp32doit-devkit-v1
 Core: esp32
 Libraries
 - WiFi@2.0.0
