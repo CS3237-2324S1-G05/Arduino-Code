@@ -123,8 +123,8 @@ void onConnectionEstablishedCallback(esp_mqtt_client_handle_t client) {
       Serial.println(gantryCameraTopic + ": " + message);
       if (strcmp(message.c_str(), "1") == 0) {
         delay(3000);
-        captureAndSendImage();
-        // captureAndSendImageWithId();
+        // captureAndSendImage();
+        captureAndSendImageWithId();
       }
     });
   }
