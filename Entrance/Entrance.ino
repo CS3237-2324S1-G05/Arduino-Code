@@ -204,7 +204,7 @@ void onConnectionEstablishedCallback(esp_mqtt_client_handle_t client) {
     mqttClient.subscribe(entranceNumLotsTopic, [](const String &message) {
       Serial.println(entranceNumLotsTopic + ": " + message);
       Serial.println("Extracted available lots: " + message);
-      if (strcmp(message.c_str(), "00") == 0){
+      if (strcmp(message.c_str(), "0") == 0){
         // means no lot available alr
         boolLotAvail = false;
       } else {
