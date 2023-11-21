@@ -46,7 +46,6 @@ GND > GND
 D1 > 22 (SCL)
 D2 > 21 (SDA)
 
-TODO: Wait for Carplate and human status and lot number before opening
 */
 
 #include "config.h"
